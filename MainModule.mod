@@ -1,14 +1,15 @@
 MODULE MainModule
     !***********************************************************
-    PERS tooldata Tool1:=[TRUE,[[0,0,1],[1,0,0,0]],[1,[0,0,0],[1,0,0,0],0,0,0]];
-    !***********************************************************
-    Func robtarget SoundToPosition()
+    Func robtarget SoundToPosition(num i)
         VAR robtarget PositionMiddle;
-        Open "Home:/default.txt",FilePosition;!wait to change
-        SoundData:=ReadNum(FilePosition);
-        !???????? ???????
+        VAR num Excursion;
+        !Read from file
+        !Open "Home:/default.txt",FilePosition;!wait to change
+        !SoundData:=ReadNum(FilePosition);
+        Excursion:=ButtonLength*(7*SoundArray{i,1}+SoundArray{i,2}-1);
+        PositionMiddle:=offs(pCenter,0,Excursion,0);
         RETURN PositionMiddle;
-    ENDFunc
+    ENDFUNC
     
     Func num CalcTime(VAR robtarget TargetPositionMiddle,VAR num Speed)
         VAR robtarget CurrentPositionMiddle;
@@ -18,18 +19,19 @@ MODULE MainModule
     ENDFUNC
     
     PROC main()
-        GlobalSpeed:=1000;
-        MoveAbsJ Home,v1000,z50,Tool1;
-        MoveL pHome,v300,fine,Tool1;
-        MoveL pCenterAbove,v300,fine,Tool1;
-        FOR i FROM 1 TO Length DO
-            TargetPosition:=SoundToPosition();
+        MoveAbsJ Home,v1000,z50,Tool0;
+        MoveL pHome,v300,fine,Tool0;
+        MoveL pCenterAbove,v300,fine,Tool0;
+        FOR i FROM 1 TO Dim(SoundArray,1) DO
+            TargetPosition:=SoundToPosition(i);
             TimeToWait:=CurrentSoundTime-CalcTime(TargetPosition,GlobalSpeed);!??
-            MoveL TargetPosition,v200,fine,Tool1;
-            MoveL Offs(TargetPosition,0,0,-20),v200,fine,Tool1;
+            MoveL TargetPosition,v200,fine,Tool0;
+            MoveL Offs(TargetPosition,0,0,-20),v200,fine,Tool0;
             WaitTime TimeToWait/100;
-            MoveL TargetPosition,v300,fine,Tool1;
+            MoveL TargetPosition,v300,fine,Tool0;
         ENDFOR
+        MoveL pCenterAbove,v300,fine,Tool0;
+        MoveL pHome,v300,fine,Tool0;
     ENDPROC
    
 ENDMODULE
