@@ -7,19 +7,19 @@ MODULE MainModule
         !Open "Home:/default.txt",FilePosition;!wait to change
         !SoundData:=ReadNum(FilePosition);
         IF SoundArrayMiddle2{i,3}<0 OR SoundArrayMiddle2{i,3}>7 THEN
-            ErrWrite "?????","??????"\RL2:="???????";
+            ErrWrite "Wrong Note","out of octave"\RL2:="please check input array";
             stop;
         ENDIF
         IF (SoundArrayMiddle2{i,2}<0)and(SoundArrayMiddle2{i,3}=1 or SoundArrayMiddle2{i,3}=4) THEN
-            ErrWrite "?????","??????"\RL2:="???????";
+            ErrWrite "Wrong Note","inexist black button"\RL2:="please check input array";
             stop;
         ELSEIF (SoundArrayMiddle2{i,2}>0)and(SoundArrayMiddle2{i,3}=7 or SoundArrayMiddle2{i,3}=3) THEN
-            ErrWrite "?????","??????"\RL2:="???????";
+            ErrWrite "Wrong Note","inexist black button"\RL2:="please check input array";
             stop;
         ENDIF
         Excursion:=ButtonLength*(7*(SoundArrayMiddle2{i,1}-4)+SoundArrayMiddle2{i,3}-1+SoundArrayMiddle2{i,2}/2);
         IF abs(Excursion)>55 THEN
-            ErrWrite "??????","???????"\RL2:="???????";
+            ErrWrite "out of range of motion","cannot get close to this point"\RL2:="please check input array";
             stop;
         ENDIF
         PositionIntermediate:=offs(pCenter,abs(SoundArrayMiddle2{i,2})*(-BlackToWhite),Excursion,0);
@@ -45,7 +45,7 @@ MODULE MainModule
             IF TimeToWait>0 THEN
                 WaitTime TimeToWait;
             ELSE
-                ErrWrite \I,"?????","";
+                ErrWrite \I,"timepoint late","";
             ENDIF
             MoveL TargetPosition,vmax,fine,Tool0;
         ENDFOR
