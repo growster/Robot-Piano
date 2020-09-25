@@ -23,7 +23,11 @@ MODULE PointModule
     !VAR num per_minute:=120;
     !******pitch(step,alter,octave)******Middle C in step 4*****
     VAR num SoundArray{4,3}:=[[4,0,-13],[4,0,10],[4,0,0],[4,0,-10]];
+    VAR string InputProcessStringArray{4,3};
     !***********************************************************
     VAR iodev FilePosition;
     VAR bool Rest:=FALSE;
+    !***********************************************************
+    VAR socketdev client_socket;
+    VAR string received_string;
 ENDMODULE
